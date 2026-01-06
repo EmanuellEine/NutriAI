@@ -28,24 +28,32 @@
         background-color: #fafafa;
         color: #09090b;
         margin: 0;
+        overflow-x: hidden;
       }
       #root { min-height: 100vh; }
       
-      /* Estilo para feedback imediato antes do React montar */
       .initial-loader {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
+        background: #fafafa;
+      }
+
+      @keyframes spin-custom {
+        to { transform: rotate(360deg); }
+      }
+      .animate-spin-custom {
+        animation: spin-custom 0.8s linear infinite;
       }
     </style>
   </head>
   <body class="text-zinc-900 antialiased">
     <div id="root">
       <div class="initial-loader">
-        <div class="w-10 h-10 border-4 border-zinc-200 border-t-zinc-900 rounded-full animate-spin mb-4"></div>
-        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Expert System v2.0</p>
+        <div class="w-10 h-10 border-[3px] border-zinc-200 border-t-zinc-900 rounded-full animate-spin-custom mb-6"></div>
+        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 animate-pulse">Iniciando Engine v2.0</p>
       </div>
     </div>
   </body>
