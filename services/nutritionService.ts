@@ -3,8 +3,6 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { UserProfile, MetabolicData, Gender, NutritionPlan } from '../types';
 import { ACTIVITY_FACTORS, MACRO_SPLIT, CALORIES_PER_GRAM } from '../constants';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export const calculateMetabolicData = (profile: UserProfile): MetabolicData => {
   const { weight, height, age, gender, activityLevel } = profile;
   
@@ -18,7 +16,7 @@ export const calculateMetabolicData = (profile: UserProfile): MetabolicData => {
 
   const getd = tmb * ACTIVITY_FACTORS[activityLevel];
   
-  // Safe Deficit: 20-25%
+  // Safe Deficit: 22%
   const deficitPercentage = 0.22;
   let deficitKcal = getd * deficitPercentage;
   let targetKcal = getd - deficitKcal;
@@ -49,8 +47,11 @@ export const calculateMetabolicData = (profile: UserProfile): MetabolicData => {
 };
 
 export const generateNutritionPlan = async (profile: UserProfile, metabolic: MetabolicData): Promise<NutritionPlan> => {
+  // Inicialização dentro da função para garantir disponibilidade da API KEY no runtime
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
   const prompt = `
-    Você é um Nutricionista Digital de IA avançado.
+    Você é um Nutricionista Digital de IA avançado e experiente.
     Gere um plano alimentar para um usuário com o seguinte perfil:
     - Idade: ${profile.age}
     - Sexo: ${profile.gender}
@@ -60,7 +61,7 @@ export const generateNutritionPlan = async (profile: UserProfile, metabolic: Met
     - Calorias Alvo: ${metabolic.targetKcal} kcal
     - Macros Alvo: Proteína ${metabolic.macros.protein}g, Carboidratos ${metabolic.macros.carbs}g, Gorduras ${metabolic.macros.fat}g
 
-    Crie um cardápio rico em nutrientes, focado na meta de perda de peso, respeitando as restrições.
+    Crie um cardápio rico em nutrientes, focado na meta do usuário, respeitando as restrições.
     A resposta deve ser em formato JSON.
   `;
 

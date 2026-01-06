@@ -2,9 +2,9 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { WorkoutProfile, WorkoutPlan } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export const generateWorkoutPlan = async (profile: WorkoutProfile): Promise<WorkoutPlan> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
   const prompt = `
     Você é um Personal Trainer de elite de IA.
     Gere um plano de treino detalhado para um usuário com o seguinte perfil:
