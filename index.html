@@ -7,6 +7,10 @@
     <title>NutriAI - Expert Health System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Babel para suportar .tsx diretamente no navegador (Crucial para GitHub Pages) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <style>
       body { 
         font-family: 'Inter', sans-serif; 
@@ -15,28 +19,36 @@
         margin: 0;
       }
       #root { min-height: 100vh; }
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: #f1f1f1; }
-      ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb:hover { background: #999; }
-      
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
+      #error-display {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        background: #fee2e2;
+        border: 2px solid #ef4444;
+        padding: 20px;
+        border-radius: 12px;
+        color: #991b1b;
+        z-index: 9999;
+        font-family: monospace;
       }
-      .animate-shake { animation: shake 0.4s ease-in-out; }
     </style>
+
     <script>
-      // Shim essencial para evitar erros fatais de 'process is not defined'
+      // Shim para variáveis de ambiente e processo
       window.process = { env: { API_KEY: "" } };
       
-      // Captura de erros global para debug
-      window.onerror = function(msg, url, line) {
-        console.error("Erro Detectado: " + msg + " em " + url + ":" + line);
-        return false;
-      };
+      // Capturador de erros para ajudar no debug do usuário
+      window.addEventListener('error', function(event) {
+        const display = document.getElementById('error-display');
+        if (display) {
+          display.style.display = 'block';
+          display.innerHTML = '<strong>Erro de Carregamento:</strong><br>' + event.message + '<br><small>' + event.filename + ':' + event.lineno + '</small>';
+        }
+      });
     </script>
+
     <script type="importmap">
 {
   "imports": {
@@ -46,14 +58,28 @@
     "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
     "recharts": "https://esm.sh/recharts@2.15.0?external=react,react-dom",
     "@google/genai": "https://esm.sh/@google/genai@1.3.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
   </head>
   <body class="text-zinc-900 antialiased">
-    <div id="root"></div>
-    <script type="module" src="index.tsx"></script>
+    <div id="error-display"></div>
+    <div id="root">
+      <!-- Loading state inicial para evitar flash de tela branca -->
+      <div class="flex items-center justify-center min-h-screen">
+        <div class="text-center">
+          <div class="w-12 h-12 border-4 border-zinc-200 border-t-zinc-900 rounded-full animate-spin mx-auto mb-4"></div>
+          <p class="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400">Iniciando Sistema...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+      Usamos type="text/babel" com data-type="module" para que o Babel transpile 
+      o arquivo .tsx e o trate como um módulo ES moderno.
+    -->
+    <script type="text/babel" data-type="module" data-presets="typescript,react" src="index.tsx"></script>
   </body>
 </html>
