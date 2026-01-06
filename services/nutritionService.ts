@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { UserProfile, MetabolicData, Gender, NutritionPlan } from '../types';
-import { ACTIVITY_FACTORS, MACRO_SPLIT, CALORIES_PER_GRAM } from '../constants';
+import { UserProfile, MetabolicData, Gender, NutritionPlan } from '../types.ts';
+import { ACTIVITY_FACTORS, MACRO_SPLIT, CALORIES_PER_GRAM } from '../constants.ts';
 
 export const calculateMetabolicData = (profile: UserProfile): MetabolicData => {
   const { weight, height, age, gender, activityLevel } = profile;
@@ -47,7 +47,6 @@ export const calculateMetabolicData = (profile: UserProfile): MetabolicData => {
 };
 
 export const generateNutritionPlan = async (profile: UserProfile, metabolic: MetabolicData): Promise<NutritionPlan> => {
-  // Inicialização dentro da função para garantir disponibilidade da API KEY no runtime
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const prompt = `
@@ -96,7 +95,9 @@ export const generateNutritionPlan = async (profile: UserProfile, metabolic: Met
     },
   });
 
-  const data = JSON.parse(response.text);
+  const text = response.text;
+  if (!text) throw new Error("Resposta vazia da IA");
+  const data = JSON.parse(text);
   
   return {
     metabolicSummary: metabolic,

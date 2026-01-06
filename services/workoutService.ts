@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { WorkoutProfile, WorkoutPlan } from '../types';
+import { WorkoutProfile, WorkoutPlan } from '../types.ts';
 
 export const generateWorkoutPlan = async (profile: WorkoutProfile): Promise<WorkoutPlan> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -59,5 +59,7 @@ export const generateWorkoutPlan = async (profile: WorkoutProfile): Promise<Work
     },
   });
 
-  return JSON.parse(response.text);
+  const text = response.text;
+  if (!text) throw new Error("Resposta vazia da IA");
+  return JSON.parse(text);
 };

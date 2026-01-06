@@ -1,24 +1,19 @@
 
 import React, { useState } from 'react';
-import Header from './components/Header';
-import NutritionForm from './components/NutritionForm';
-import PlanDisplay from './components/PlanDisplay';
-import WorkoutForm from './components/WorkoutForm';
-import WorkoutDisplay from './components/WorkoutDisplay';
-import { UserProfile, NutritionPlan, WorkoutProfile, WorkoutPlan } from './types';
-import { calculateMetabolicData, generateNutritionPlan } from './services/nutritionService';
-import { generateWorkoutPlan } from './services/workoutService';
+import Header from './components/Header.tsx';
+import NutritionForm from './components/NutritionForm.tsx';
+import PlanDisplay from './components/PlanDisplay.tsx';
+import WorkoutForm from './components/WorkoutForm.tsx';
+import WorkoutDisplay from './components/WorkoutDisplay.tsx';
+import { UserProfile, NutritionPlan, WorkoutProfile, WorkoutPlan } from './types.ts';
+import { calculateMetabolicData, generateNutritionPlan } from './services/nutritionService.ts';
+import { generateWorkoutPlan } from './services/workoutService.ts';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'nutrition' | 'workout'>('nutrition');
   const [isLoading, setIsLoading] = useState(false);
-  
-  // States para Nutrição
   const [nutritionPlan, setNutritionPlan] = useState<NutritionPlan | null>(null);
-  
-  // States para Treino
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
-  
   const [error, setError] = useState<string | null>(null);
 
   const handleNutritionSubmit = async (profile: UserProfile) => {
@@ -32,7 +27,8 @@ const App: React.FC = () => {
         document.getElementById('results-view')?.scrollIntoView({ behavior: 'smooth' });
       }, 150);
     } catch (err) {
-      setError("Falha ao gerar nutrição.");
+      console.error(err);
+      setError("Falha ao gerar plano de nutrição. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +44,8 @@ const App: React.FC = () => {
         document.getElementById('results-view')?.scrollIntoView({ behavior: 'smooth' });
       }, 150);
     } catch (err) {
-      setError("Falha ao gerar treino.");
+      console.error(err);
+      setError("Falha ao gerar plano de treino. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +101,7 @@ const App: React.FC = () => {
                 <p className="text-zinc-400 text-xs font-bold uppercase tracking-[0.3em]">Gerando inteligência aplicada...</p>
               </div>
             ) : (
-              <>
+              <div className="h-full">
                 {activeTab === 'nutrition' && nutritionPlan && <PlanDisplay plan={nutritionPlan} />}
                 {activeTab === 'workout' && workoutPlan && <WorkoutDisplay plan={workoutPlan} />}
                 
@@ -119,7 +116,7 @@ const App: React.FC = () => {
                     <p className="text-zinc-300 text-[11px] font-black uppercase tracking-[0.25em]">Insira seus dados à esquerda</p>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>
