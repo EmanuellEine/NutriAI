@@ -8,30 +8,32 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   return (
-    <header className="bg-white/95 backdrop-blur-xl sticky top-0 z-[100] border-b border-zinc-100 py-6 px-6">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="bg-zinc-900 p-2 rounded-xl shadow-lg shadow-zinc-200">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <header className="fixed top-0 left-0 right-0 bg-white border-b border-zinc-100 z-[999] h-16 px-6">
+      <div className="max-w-[1400px] mx-auto h-full flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="bg-zinc-900 w-7 h-7 flex items-center justify-center rounded-lg shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h1 className="text-base font-black tracking-tight text-zinc-900 uppercase">
-            NutriAI <span className="text-zinc-300 font-bold">Expert</span>
+          <h1 className="text-[11px] font-black tracking-tighter text-zinc-900 uppercase">
+            NutriAI <span className="text-zinc-300">Expert</span>
           </h1>
         </div>
-        <nav className="flex gap-8 md:gap-12 text-xs font-bold uppercase tracking-[0.2em]">
+        <nav className="flex gap-8 h-full">
           <button 
             onClick={() => onTabChange('nutrition')}
-            className={`transition-all pb-2 border-b-2 ${activeTab === 'nutrition' ? 'text-zinc-900 border-zinc-900' : 'text-zinc-400 border-transparent hover:text-zinc-600'}`}
+            className={`h-full flex items-center text-[10px] font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === 'nutrition' ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'}`}
           >
             Nutrição
+            {activeTab === 'nutrition' && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-900"></span>}
           </button>
           <button 
             onClick={() => onTabChange('workout')}
-            className={`transition-all pb-2 border-b-2 ${activeTab === 'workout' ? 'text-zinc-900 border-zinc-900' : 'text-zinc-400 border-transparent hover:text-zinc-600'}`}
+            className={`h-full flex items-center text-[10px] font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === 'workout' ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'}`}
           >
             Treino
+            {activeTab === 'workout' && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-900"></span>}
           </button>
         </nav>
       </div>
