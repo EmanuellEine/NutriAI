@@ -8,47 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Babel para suportar .tsx diretamente no navegador (Crucial para GitHub Pages) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <style>
-      body { 
-        font-family: 'Inter', sans-serif; 
-        background-color: #fafafa;
-        color: #09090b;
-        margin: 0;
-      }
-      #root { min-height: 100vh; }
-      #error-display {
-        display: none;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        right: 20px;
-        background: #fee2e2;
-        border: 2px solid #ef4444;
-        padding: 20px;
-        border-radius: 12px;
-        color: #991b1b;
-        z-index: 9999;
-        font-family: monospace;
-      }
-    </style>
-
-    <script>
-      // Shim para variáveis de ambiente e processo
-      window.process = { env: { API_KEY: "" } };
-      
-      // Capturador de erros para ajudar no debug do usuário
-      window.addEventListener('error', function(event) {
-        const display = document.getElementById('error-display');
-        if (display) {
-          display.style.display = 'block';
-          display.innerHTML = '<strong>Erro de Carregamento:</strong><br>' + event.message + '<br><small>' + event.filename + ':' + event.lineno + '</small>';
-        }
-      });
-    </script>
-
     <script type="importmap">
 {
   "imports": {
@@ -63,23 +22,31 @@
   }
 }
 </script>
+    <style>
+      body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: #fafafa;
+        color: #09090b;
+        margin: 0;
+      }
+      #root { min-height: 100vh; }
+      
+      /* Estilo para feedback imediato antes do React montar */
+      .initial-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body class="text-zinc-900 antialiased">
-    <div id="error-display"></div>
     <div id="root">
-      <!-- Loading state inicial para evitar flash de tela branca -->
-      <div class="flex items-center justify-center min-h-screen">
-        <div class="text-center">
-          <div class="w-12 h-12 border-4 border-zinc-200 border-t-zinc-900 rounded-full animate-spin mx-auto mb-4"></div>
-          <p class="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400">Iniciando Sistema...</p>
-        </div>
+      <div class="initial-loader">
+        <div class="w-10 h-10 border-4 border-zinc-200 border-t-zinc-900 rounded-full animate-spin mb-4"></div>
+        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Expert System v2.0</p>
       </div>
     </div>
-
-    <!-- 
-      Usamos type="text/babel" com data-type="module" para que o Babel transpile 
-      o arquivo .tsx e o trate como um módulo ES moderno.
-    -->
-    <script type="text/babel" data-type="module" data-presets="typescript,react" src="index.tsx"></script>
   </body>
 </html>

@@ -28,7 +28,7 @@ const App: React.FC = () => {
       }, 150);
     } catch (err) {
       console.error(err);
-      setError("Falha ao gerar plano de nutrição. Tente novamente.");
+      setError("Falha ao gerar plano de nutrição. Verifique sua conexão ou chave de API.");
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +57,6 @@ const App: React.FC = () => {
       
       <main className="max-w-6xl mx-auto px-6 py-12 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-24">
-          {/* Left Column */}
           <div className="lg:col-span-5 flex flex-col">
             <div className="mb-12">
               <div className="inline-flex items-center gap-3 px-4 py-2 bg-zinc-100 border border-zinc-200 rounded-2xl mb-8">
@@ -92,7 +91,6 @@ const App: React.FC = () => {
             )}
           </div>
 
-          {/* Right Column */}
           <div id="results-view" className="lg:col-span-7 pt-12 lg:pt-0">
             {isLoading ? (
               <div className="h-full min-h-[600px] flex flex-col items-center justify-center text-center p-12 bg-zinc-50 rounded-[64px] border border-zinc-100">
